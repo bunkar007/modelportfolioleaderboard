@@ -1,5 +1,5 @@
-// storage.ts - Immortal & Atomic JSON Database Engine
-// All model portfolios strictly feature Indian stocks (NSE/BSE)
+// storage.ts - Immortal Hybrid KV & JSON Database Engine
+// Supports local filesystem and Deno Deploy Cloud KV seamlessly
 
 export interface StockPick {
   ticker: string; // e.g. "NSE:RELIANCE"
@@ -50,6 +50,22 @@ const DB_BACKUP_PATH = "./data/database.backup.json";
 
 // In-memory state cache
 let memoryStateCache: AppState | null = null;
+let kvInstance: any = null;
+
+async function getKv(): Promise<any> {
+  if (kvInstance) return kvInstance;
+  try {
+    // @ts-ignore: Deno.openKv may be present on Deno Deploy or with flag
+    if (typeof Deno.openKv === "function") {
+      // @ts-ignore
+      kvInstance = await Deno.openKv();
+      return kvInstance;
+    }
+  } catch (_e) {
+    // KV not available
+  }
+  return null;
+}
 
 const DEFAULT_AVATARS = ["🦁", "🚀", "🦅", "⚡", "🐺", "🔥", "💎", "🎯", "🦊", "👑", "🦈", "🏆"];
 const DEFAULT_COLORS = ["#38BDF8", "#10B981", "#A855F7", "#F59E0B", "#EC4899", "#6366F1", "#14B8A6", "#E11D48"];
@@ -66,6 +82,30 @@ export function getRandomColor(): string {
 export function getDefaultUsers(): User[] {
   const now = new Date().toISOString();
   return [
+    {
+      id: "usr_tribankur",
+      name: "Tribankur",
+      avatar: "👑",
+      color: "#38BDF8",
+      createdAt: now,
+      isLocked: true,
+      portfolio: [
+        { ticker: "NSE:HINDZINC", symbol: "HINDZINC", name: "Hindustan Zinc", exchange: "NSE", currency: "INR", entryPrice: 550, addedAt: now },
+        { ticker: "NSE:PINELABS", symbol: "PINELABS", name: "Pine Labs", exchange: "NSE", currency: "INR", entryPrice: 157, addedAt: now },
+      ],
+    },
+    {
+      id: "usr_deep",
+      name: "Deep",
+      avatar: "🔥",
+      color: "#F59E0B",
+      createdAt: now,
+      isLocked: true,
+      portfolio: [
+        { ticker: "NSE:SAIL", symbol: "SAIL", name: "Steel Authority", exchange: "NSE", currency: "INR", entryPrice: 170, addedAt: now },
+        { ticker: "NSE:TITAN", symbol: "TITAN", name: "Titan Company", exchange: "NSE", currency: "INR", entryPrice: 4754, addedAt: now },
+      ],
+    },
     {
       id: "usr_david",
       name: "David Kim",
@@ -88,7 +128,6 @@ export function getDefaultUsers(): User[] {
       portfolio: [
         { ticker: "NSE:HDFCBANK", symbol: "HDFCBANK", name: "HDFC Bank", exchange: "NSE", currency: "INR", entryPrice: 736, addedAt: now },
         { ticker: "NSE:ICICIBANK", symbol: "ICICIBANK", name: "ICICI Bank", exchange: "NSE", currency: "INR", entryPrice: 1424, addedAt: now },
-        { ticker: "NSE:SBIN", symbol: "SBIN", name: "State Bank of India", exchange: "NSE", currency: "INR", entryPrice: 979, addedAt: now },
       ],
     },
     {
@@ -99,8 +138,8 @@ export function getDefaultUsers(): User[] {
       createdAt: now,
       isLocked: true,
       portfolio: [
+        { ticker: "NSE:SBIN", symbol: "SBIN", name: "State Bank of India", exchange: "NSE", currency: "INR", entryPrice: 979, addedAt: now },
         { ticker: "NSE:RELIANCE", symbol: "RELIANCE", name: "Reliance Industries", exchange: "NSE", currency: "INR", entryPrice: 1311, addedAt: now },
-        { ticker: "NSE:BHARTIARTL", symbol: "BHARTIARTL", name: "Bharti Airtel", exchange: "NSE", currency: "INR", entryPrice: 2067, addedAt: now },
       ],
     },
     {
@@ -111,20 +150,8 @@ export function getDefaultUsers(): User[] {
       createdAt: now,
       isLocked: true,
       portfolio: [
+        { ticker: "NSE:BHARTIARTL", symbol: "BHARTIARTL", name: "Bharti Airtel", exchange: "NSE", currency: "INR", entryPrice: 2067, addedAt: now },
         { ticker: "NSE:ITC", symbol: "ITC", name: "ITC Limited", exchange: "NSE", currency: "INR", entryPrice: 280, addedAt: now },
-        { ticker: "NSE:TATASTEEL", symbol: "TATASTEEL", name: "Tata Steel", exchange: "NSE", currency: "INR", entryPrice: 179, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_lucas",
-      name: "Lucas Silva",
-      avatar: "🎯",
-      color: "#F59E0B",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:AXISBANK", symbol: "AXISBANK", name: "Axis Bank", exchange: "NSE", currency: "INR", entryPrice: 1232, addedAt: now },
-        { ticker: "NSE:TATASTEEL", symbol: "TATASTEEL", name: "Tata Steel", exchange: "NSE", currency: "INR", entryPrice: 179, addedAt: now },
       ],
     },
     {
@@ -135,8 +162,8 @@ export function getDefaultUsers(): User[] {
       createdAt: now,
       isLocked: true,
       portfolio: [
+        { ticker: "NSE:TATASTEEL", symbol: "TATASTEEL", name: "Tata Steel", exchange: "NSE", currency: "INR", entryPrice: 179, addedAt: now },
         { ticker: "NSE:LT", symbol: "LT", name: "Larsen & Toubro", exchange: "NSE", currency: "INR", entryPrice: 3944, addedAt: now },
-        { ticker: "NSE:MARUTI", symbol: "MARUTI", name: "Maruti Suzuki", exchange: "NSE", currency: "INR", entryPrice: 11995, addedAt: now },
       ],
     },
     {
@@ -149,18 +176,6 @@ export function getDefaultUsers(): User[] {
       portfolio: [
         { ticker: "NSE:HDFCBANK", symbol: "HDFCBANK", name: "HDFC Bank", exchange: "NSE", currency: "INR", entryPrice: 736, addedAt: now },
         { ticker: "NSE:RELIANCE", symbol: "RELIANCE", name: "Reliance Industries", exchange: "NSE", currency: "INR", entryPrice: 1311, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_elena",
-      name: "Elena Rostova",
-      avatar: "🦅",
-      color: "#38BDF8",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:KOTAKBANK", symbol: "KOTAKBANK", name: "Kotak Mahindra Bank", exchange: "NSE", currency: "INR", entryPrice: 459, addedAt: now },
-        { ticker: "NSE:WIPRO", symbol: "WIPRO", name: "Wipro Limited", exchange: "NSE", currency: "INR", entryPrice: 194, addedAt: now },
       ],
     },
     {
@@ -184,7 +199,7 @@ export function getDefaultUsers(): User[] {
       isLocked: true,
       portfolio: [
         { ticker: "NSE:TCS", symbol: "TCS", name: "Tata Consultancy", exchange: "NSE", currency: "INR", entryPrice: 2436, addedAt: now },
-        { ticker: "NSE:SUNPHARMA", symbol: "SUNPHARMA", name: "Sun Pharma", exchange: "NSE", currency: "INR", entryPrice: 1773, addedAt: now },
+        { ticker: "NSE:MARUTI", symbol: "MARUTI", name: "Maruti Suzuki", exchange: "NSE", currency: "INR", entryPrice: 11995, addedAt: now },
       ],
     },
   ];
@@ -201,66 +216,91 @@ function getDefaultState(): AppState {
   };
 }
 
+/**
+ * Loads the application state with failover protection.
+ * Supports Deno KV (for Deno Deploy cloud) and local JSON.
+ */
 export async function loadState(): Promise<AppState> {
   if (memoryStateCache) {
     return memoryStateCache;
   }
 
-  // 1. Try reading the primary database file
+  // 1. Try Deno KV (Deno Deploy Cloud DB)
   try {
-    const text = await Deno.readTextFile(DB_PATH);
+    const kv = await getKv();
+    if (kv) {
+      const entry = await kv.get(["app_state"]);
+      if (entry && entry.value && Array.isArray(entry.value.users)) {
+        memoryStateCache = entry.value;
+        return entry.value;
+      }
+    }
+  } catch (_kvErr) {
+    // KV not available
+  }
+
+  // 2. Try primary database file (works locally & in bundle)
+  try {
+    const text = await Deno.readTextFile(new URL("./data/database.json", import.meta.url));
     const data = JSON.parse(text) as AppState;
     if (data && Array.isArray(data.users)) {
       memoryStateCache = data;
+      // Mirror to KV if available
+      const kv = await getKv();
+      if (kv) await kv.set(["app_state"], data);
       return data;
     }
   } catch (_err) {
-    // Primary failed or doesn't exist yet, try backup file
+    try {
+      const text = await Deno.readTextFile(DB_PATH);
+      const data = JSON.parse(text) as AppState;
+      if (data && Array.isArray(data.users)) {
+        memoryStateCache = data;
+        return data;
+      }
+    } catch (_fallbackErr) {}
   }
 
-  // 2. Try reading the backup file
+  // 3. Try reading backup file
   try {
     const backupText = await Deno.readTextFile(DB_BACKUP_PATH);
     const backupData = JSON.parse(backupText) as AppState;
     if (backupData && Array.isArray(backupData.users)) {
-      console.log("[RESTORE] Recovered database state from backup file!");
       memoryStateCache = backupData;
-      await saveState(backupData);
       return backupData;
     }
-  } catch (_err) {
-    // Backup failed or doesn't exist
-  }
+  } catch (_backupErr) {}
 
-  // 3. First time startup: create initial state and save atomically
+  // 4. Seed initial default state
   const initialState = getDefaultState();
   memoryStateCache = initialState;
   await saveState(initialState);
   return initialState;
 }
 
+/**
+ * Saves state to both Deno KV and file system atomically.
+ */
 export async function saveState(state: AppState): Promise<void> {
   state.lastUpdated = new Date().toISOString();
   memoryStateCache = state;
 
+  // 1. Save to Deno KV (Permanent cloud storage on Deno Deploy)
+  try {
+    const kv = await getKv();
+    if (kv) {
+      await kv.set(["app_state"], state);
+    }
+  } catch (_e) {}
+
+  // 2. Save to local file system
   try {
     await Deno.mkdir("./data", { recursive: true });
     const jsonString = JSON.stringify(state, null, 2);
-
-    // Write temporary file
     await Deno.writeTextFile(DB_TEMP_PATH, jsonString);
-
-    // Write backup file for fail-safe recovery
     await Deno.writeTextFile(DB_BACKUP_PATH, jsonString);
-
-    // Atomic rename replaces the target file in one indestructible operation
     await Deno.rename(DB_TEMP_PATH, DB_PATH);
-  } catch (err) {
-    console.error("Critical error saving state atomically:", err);
-    try {
-      await Deno.writeTextFile(DB_PATH, JSON.stringify(state, null, 2));
-    } catch (_fallbackErr) {
-      // ignore
-    }
+  } catch (_fileErr) {
+    // In serverless environments with read-only file systems, KV handles persistence
   }
 }

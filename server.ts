@@ -16,7 +16,7 @@ import {
   TopIndianStock,
 } from "./tradingview.ts";
 
-const PORT = 3000;
+const PORT = Number(Deno.env.get("PORT")) || 3000;
 
 // Benchmark indices / prominent assets for the TV Ticker Tape
 const TICKER_TAPE_SYMBOLS = [
@@ -170,25 +170,41 @@ const MIME_TYPES: Record<string, string> = {
 
 async function handleStaticFile(reqPath: string): Promise<Response> {
   let filePath = reqPath === "/" ? "/index.html" : reqPath;
-  filePath = `./public${filePath}`;
+  const relPath = `./public${filePath}`;
 
+  let file: Uint8Array | null = null;
   try {
-    const file = await Deno.readFile(filePath);
+    file = await Deno.readFile(relPath);
+  } catch (_e1) {
+    try {
+      file = await Deno.readFile(new URL(relPath, import.meta.url));
+    } catch (_e2) {}
+  }
+
+  if (file) {
     const ext = filePath.substring(filePath.lastIndexOf("."));
     const contentType = MIME_TYPES[ext] || "application/octet-stream";
     return new Response(file, {
       status: 200,
       headers: { "Content-Type": contentType },
     });
-  } catch (_err) {
-    // Fallback to index.html for SPA if not found
+  }
+
+  // Fallback to index.html for SPA
+  try {
+    const fallback = await Deno.readFile(new URL("./public/index.html", import.meta.url));
+    return new Response(fallback, {
+      status: 200,
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
+  } catch (_fb) {
     try {
       const fallback = await Deno.readFile("./public/index.html");
       return new Response(fallback, {
         status: 200,
         headers: { "Content-Type": "text/html; charset=utf-8" },
       });
-    } catch (_fallbackErr) {
+    } catch (_err) {
       return new Response("Not Found", { status: 404 });
     }
   }
