@@ -164,10 +164,9 @@ function renderPodium() {
     const arrow = isPos ? "▲" : "▼";
 
     const stockTags = user.stocks
-      .slice(0, 2)
       .map(
         (s) => `
-        <span class="podium-stock-tag" title="${s.name}">
+        <span class="podium-stock-tag" title="${s.name} (${s.exchange})">
           ${s.symbol} <span style="color: ${s.changePercent >= 0 ? '#34d399' : '#f87171'}">${s.changePercent >= 0 ? '+' : ''}${s.changePercent.toFixed(1)}%</span>
         </span>
       `
@@ -231,7 +230,6 @@ function renderLeaderboard() {
       const stocksHtml =
         user.stocks.length > 0
           ? user.stocks
-              .slice(0, 3)
               .map((s) => {
                 const sPos = s.changePercent >= 0;
                 const sSign = sPos ? "+" : "";

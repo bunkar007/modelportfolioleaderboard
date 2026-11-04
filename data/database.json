@@ -13,20 +13,29 @@
         {
           "ticker": "NSE:BAJFINANCE",
           "symbol": "BAJFINANCE",
-          "name": "Bajaj Finance",
+          "name": "Bajaj Finance Limited",
           "exchange": "NSE",
           "currency": "INR",
           "entryPrice": 994,
-          "addedAt": "2026-11-04T12:10:14.257Z"
+          "addedAt": "2026-11-04T14:38:47.596Z"
         },
         {
           "ticker": "NSE:TITAN",
           "symbol": "TITAN",
-          "name": "Titan Company",
+          "name": "Titan Company Limited",
           "exchange": "NSE",
           "currency": "INR",
-          "entryPrice": 4754,
-          "addedAt": "2026-11-04T12:10:14.257Z"
+          "entryPrice": 4754.4,
+          "addedAt": "2026-11-04T14:38:47.596Z"
+        },
+        {
+          "ticker": "NSE:HDFCBANK",
+          "symbol": "HDFCBANK",
+          "name": "HDFC Bank Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 736.7,
+          "addedAt": "2026-11-04T14:38:47.596Z"
         }
       ]
     },
@@ -402,5 +411,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-11-04T12:10:14.257Z"
+  "lastUpdated": "2026-11-04T14:38:47.596Z"
 }
