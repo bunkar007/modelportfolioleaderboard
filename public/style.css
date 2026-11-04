@@ -1,0 +1,1178 @@
+/* style.css - Premium Dark TV-Ready TradingView Leaderboard */
+
+:root {
+  --bg-deep: #07090e;
+  --bg-surface: #0f1523;
+  --bg-surface-elevated: #162035;
+  --bg-card: rgba(19, 27, 46, 0.8);
+  --bg-card-hover: rgba(28, 41, 68, 0.95);
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.18);
+  --border-active: rgba(56, 189, 248, 0.4);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --accent-green: #10b981;
+  --accent-green-glow: rgba(16, 185, 129, 0.25);
+  --accent-red: #ef4444;
+  --accent-red-glow: rgba(239, 68, 68, 0.25);
+  
+  --gold: #f59e0b;
+  --gold-glow: rgba(245, 158, 11, 0.35);
+  --silver: #cbd5e1;
+  --silver-glow: rgba(203, 213, 225, 0.25);
+  --bronze: #d97706;
+  --bronze-glow: rgba(217, 119, 6, 0.25);
+  
+  --cyan: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.3);
+
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-lg: 14px;
+  --radius-md: 8px;
+  --radius-sm: 5px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-highlight);
+  border-radius: 3px;
+}
+
+/* TV Ticker Tape Marquee */
+.ticker-tape-container {
+  background: rgba(10, 15, 26, 0.96);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 50;
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-prefix-block {
+  display: flex;
+  align-items: center;
+  background: #0f172a;
+  border-right: 1px solid var(--border-highlight);
+  height: 100%;
+  padding: 0 0.85rem;
+  gap: 0.75rem;
+  z-index: 2;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.live-clock-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: #38bdf8;
+  font-family: monospace;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.clock-dot {
+  width: 6px;
+  height: 6px;
+  background: #38bdf8;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #38bdf8;
+  animation: pulseAnimation 1.5s infinite;
+}
+
+.ticker-source-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ticker-tape-track {
+  display: inline-flex;
+  gap: 1.5rem;
+  animation: tickerScroll 25s linear infinite;
+  padding-left: 1rem;
+}
+
+.ticker-tape-container:hover .ticker-tape-track {
+  animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ticker-rank-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.ticker-symbol {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.ticker-name {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+.ticker-price {
+  color: #fff;
+  font-weight: 700;
+}
+.ticker-change.positive {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+.ticker-change.negative {
+  color: var(--accent-red);
+  font-weight: 700;
+}
+
+/* Header */
+.app-header {
+  background: rgba(15, 21, 35, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.45rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid var(--border-highlight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.brand-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(120deg, #ffffff 30%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+}
+
+.brand-subtitle {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+}
+
+.status-badge.live {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.live .pulse-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #10b981;
+  animation: pulseAnimation 1.8s infinite;
+}
+
+@keyframes pulseAnimation {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.status-badge.day-end {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-md);
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: 1px solid transparent;
+  outline: none;
+  user-select: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--border-highlight);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.btn-tv {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.btn-tv:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+.btn-icon-only {
+  padding: 0.35rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Floating Exit TV Button (Always visible on TV Mode) */
+#floating-exit-tv-btn {
+  display: none;
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  z-index: 99999;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(239, 68, 68, 0.4);
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-smooth);
+}
+#floating-exit-tv-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  transform: scale(1.04);
+}
+body.tv-mode #floating-exit-tv-btn {
+  display: flex !important;
+}
+
+/* Main Content Layout */
+.main-content {
+  flex: 1;
+  max-width: 1560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ========================================================= */
+/* COMPACT WINNER'S PODIUM (1st, 2nd, 3rd)                  */
+/* Fits cleanly on screen without pushing ranks 4-10 off!    */
+/* ========================================================= */
+.podium-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: linear-gradient(180deg, rgba(22, 32, 53, 0.65) 0%, rgba(15, 21, 35, 0.4) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 1rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.podium-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+
+.podium-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.podium-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+/* Sleek Trio Podium Cards Container */
+.podium-stage-trio {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+/* Individual Podium Card */
+.podium-compact-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 21, 35, 0.7);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.podium-compact-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Rank 1 (Gold Champion) */
+.podium-compact-card.rank-1-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(19, 27, 46, 0.85) 100%);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+
+/* Rank 2 (Silver) */
+.podium-compact-card.rank-2-card {
+  background: linear-gradient(135deg, rgba(203, 213, 225, 0.12) 0%, rgba(19, 27, 46, 0.85) 100%);
+  border-color: var(--silver);
+}
+
+/* Rank 3 (Bronze) */
+.podium-compact-card.rank-3-card {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, rgba(19, 27, 46, 0.85) 100%);
+  border-color: var(--bronze);
+}
+
+.podium-card-medal {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+.rank-1-card .podium-card-medal {
+  font-size: 2rem;
+}
+
+.podium-card-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--bg-surface-elevated);
+  border: 2px solid var(--border-highlight);
+  flex-shrink: 0;
+}
+.rank-1-card .podium-card-avatar {
+  width: 46px;
+  height: 46px;
+  font-size: 1.5rem;
+  border-color: var(--gold);
+}
+
+.podium-card-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.podium-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rank-1-card .podium-card-name {
+  font-size: 1.05rem;
+}
+
+.podium-card-stocks {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.podium-stock-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.podium-card-return {
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+.rank-1-card .podium-card-return {
+  font-size: 1.35rem;
+}
+.podium-card-return.positive {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.15);
+}
+.podium-card-return.negative {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* ========================================================= */
+/* DUAL-COLUMN LEADERBOARD GRID (Ranks 1 to 10+ on 1 Screen)  */
+/* ========================================================= */
+.leaderboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.section-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.section-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.meta-stats {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* 2-Column Grid of Leaderboard Rows */
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.45rem 0.75rem;
+}
+
+/* Compact Leaderboard Row (~44px height) */
+.leaderboard-row {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  transition: var(--transition-smooth);
+  min-height: 44px;
+}
+
+.leaderboard-row:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-highlight);
+  transform: translateY(-1px);
+}
+
+/* Highlight top 3 inside the grid */
+.leaderboard-row.rank-1-row {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 70%);
+}
+.leaderboard-row.rank-2-row {
+  border-color: rgba(203, 213, 225, 0.35);
+}
+.leaderboard-row.rank-3-row {
+  border-color: rgba(217, 119, 6, 0.35);
+}
+
+/* Left Group: Rank + Avatar + Name */
+.row-left-group {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  flex: 1.2;
+}
+
+.rank-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.rank-1-row .rank-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+}
+.rank-2-row .rank-badge {
+  background: linear-gradient(135deg, #cbd5e1, #64748b);
+  color: #fff;
+}
+.rank-3-row .rank-badge {
+  background: linear-gradient(135deg, #d97706, #92400e);
+  color: #fff;
+}
+
+.user-avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.user-row-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Middle Group: Stocks */
+.row-stocks-group {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  flex: 1.5;
+}
+
+.stock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.stock-tag-sym {
+  font-weight: 700;
+  color: #fff;
+}
+
+.stock-tag-change.positive {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+.stock-tag-change.negative {
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+/* Right Group: Return + Quick Actions */
+.row-right-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.return-big {
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.return-big.positive {
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.12);
+}
+.return-big.negative {
+  color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.row-actions-btn {
+  opacity: 0.6;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+.row-actions-btn:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-highlight);
+  grid-column: span 2;
+}
+
+/* ========================================================= */
+/* TV MODE (Full 1080p Kiosk Fit with 0 Scrolling)          */
+/* ========================================================= */
+body.tv-mode {
+  overflow: hidden; /* Everything fits inside the TV viewport */
+  height: 100vh;
+}
+
+body.tv-mode .main-content {
+  max-width: 98%;
+  padding: 0.5rem 1rem;
+  gap: 0.6rem;
+  height: calc(100vh - 100px);
+  justify-content: flex-start;
+}
+
+body.tv-mode .ticker-tape-container {
+  height: 38px;
+}
+body.tv-mode .ticker-item {
+  font-size: 0.95rem;
+  padding: 2px 10px;
+}
+
+body.tv-mode .app-header {
+  padding: 0.5rem 2rem;
+}
+body.tv-mode .brand-title {
+  font-size: 1.4rem;
+}
+
+body.tv-mode .podium-section {
+  padding: 0.6rem 1rem;
+}
+body.tv-mode .podium-compact-card {
+  padding: 0.65rem 1rem;
+}
+body.tv-mode .podium-card-name {
+  font-size: 1.15rem;
+}
+body.tv-mode .podium-card-return {
+  font-size: 1.4rem;
+}
+
+body.tv-mode .leaderboard-row {
+  min-height: 50px;
+  padding: 0.45rem 0.85rem;
+}
+body.tv-mode .rank-badge {
+  width: 34px;
+  height: 34px;
+  font-size: 1.05rem;
+}
+body.tv-mode .user-avatar-circle {
+  width: 34px;
+  height: 34px;
+  font-size: 1.15rem;
+}
+body.tv-mode .user-row-name {
+  font-size: 1.1rem;
+}
+body.tv-mode .return-big {
+  font-size: 1.25rem;
+}
+body.tv-mode .stock-tag {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.55rem;
+}
+body.tv-mode .row-actions-btn {
+  display: none; /* Hide edit/delete icons on TV screen */
+}
+
+/* Modals */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: modalEnter 0.2s ease-out;
+  overflow: hidden;
+}
+
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: var(--transition-smooth);
+}
+
+.modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.modal-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Forms & Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-input {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition-smooth);
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+/* Avatar Selection Grid */
+.avatar-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.avatar-choice {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.avatar-choice:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.avatar-choice.selected {
+  border-color: var(--cyan);
+  background: rgba(56, 189, 248, 0.2);
+  transform: scale(1.08);
+}
+
+/* Stock Search Autocomplete */
+.search-results-dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-elevated);
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item {
+  padding: 0.55rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: var(--transition-smooth);
+}
+
+.search-item:last-child {
+  border-bottom: none;
+}
+
+.search-item:hover {
+  background: rgba(56, 189, 248, 0.15);
+}
+
+.search-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item-sym {
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.search-item-desc {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.search-item-tag {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+/* Preset Quick Chips */
+.preset-chips-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.preset-chip {
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.preset-chip:hover {
+  background: rgba(56, 189, 248, 0.2);
+  color: #fff;
+  border-color: var(--cyan);
+}
+
+/* Selected Portfolio Stocks in Modal */
+.selected-stocks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.selected-stock-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.remove-stock-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 3px;
+  transition: var(--transition-smooth);
+}
+
+.remove-stock-btn:hover {
+  color: #ef4444;
+}
+
+/* Single Column Responsive Fallback for Tablets/Phones */
+@media (max-width: 900px) {
+  .podium-stage-trio {
+    grid-template-columns: 1fr;
+  }
+  .leaderboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================= */
+/* TV REMOTE 2D SPATIAL FOCUS & D-PAD NAVIGATION            */
+/* ========================================================= */
+:focus-visible,
+.tv-nav-focus {
+  outline: 3.5px solid #38bdf8 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.95), inset 0 0 10px rgba(56, 189, 248, 0.3) !important;
+  transform: scale(1.035) !important;
+  z-index: 100 !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, outline 0.12s ease !important;
+}
+
+/* TV Remote Focus on Gold/Champion items */
+.rank-1-card:focus-visible,
+.rank-1-card.tv-nav-focus,
+.rank-1-row:focus-visible,
+.rank-1-row.tv-nav-focus,
+.btn-gold:focus-visible,
+.btn-gold.tv-nav-focus {
+  outline-color: #ffd700 !important;
+  box-shadow: 0 0 32px rgba(255, 215, 0, 0.95), inset 0 0 12px rgba(255, 215, 0, 0.35) !important;
+}
+
+/* TV Remote Focus on Exit/Danger items */
+.btn-danger:focus-visible,
+.btn-danger.tv-nav-focus,
+.modal-close-btn:focus-visible,
+.modal-close-btn.tv-nav-focus,
+#floating-exit-tv-btn:focus-visible,
+#floating-exit-tv-btn.tv-nav-focus {
+  outline-color: #ef4444 !important;
+  box-shadow: 0 0 28px rgba(239, 68, 68, 0.95) !important;
+}
+
+/* Interactive elements */
+.podium-compact-card,
+.leaderboard-row,
+.avatar-choice,
+.preset-chip {
+  cursor: pointer;
+  user-select: none;
+}
+

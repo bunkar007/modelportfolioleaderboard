@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Model Portfolio - Live Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Confetti library via unpkg with fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating TV Exit Button (Visible when TV Mode is active) -->
+  <button id="floating-exit-tv-btn" title="Exit TV Mode (ESC or Click)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+    <span>Exit TV Mode (ESC)</span>
+  </button>
+
+  <!-- Top Real-Time TV Market Ticker Tape + Minimal Live Clock -->
+  <div class="ticker-tape-container" id="ticker-tape-container">
+    <div class="ticker-prefix-block">
+      <div class="live-clock-badge">
+        <span class="clock-dot"></span>
+        <span id="top-live-clock">--:--:--</span>
+      </div>
+      <div class="ticker-source-tag">
+        <span>🇮🇳 TOP 5 GAINERS</span>
+      </div>
+    </div>
+    <div class="ticker-tape-track" id="ticker-tape-track">
+      <!-- Injected dynamically via app.js -->
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-icon-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+          <polyline points="16 7 22 7 22 13"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">ALPHA DAILY</h1>
+        <div class="brand-subtitle">
+          <span id="header-date">Today</span>
+          <span>•</span>
+          <span id="status-pill" class="status-badge live">
+            <span class="pulse-dot"></span>
+            <span id="status-text">LIVE</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Control Buttons -->
+    <div class="header-controls">
+      <button class="btn btn-secondary" id="btn-open-add-user" title="Add participant">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        <span>+ User</span>
+      </button>
+
+      <button class="btn btn-primary" id="btn-open-pick-stocks" title="Select stocks">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="12 8 8 12 12 16 16 12 12 8"></polygon>
+        </svg>
+        <span>Pick Stocks</span>
+      </button>
+
+      <button class="btn btn-gold" id="btn-toggle-day-end" title="End day and crown winners">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+        <span id="btn-day-end-text">Day's End</span>
+      </button>
+
+      <button class="btn btn-tv" id="btn-toggle-tv" title="Toggle Fullscreen TV Mode (F)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+          <polyline points="17 2 12 7 7 2"></polyline>
+        </svg>
+        <span>📺 TV</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="main-content">
+
+    <!-- Winner's Podium Section (1st, 2nd, 3rd) -->
+    <section class="podium-section" id="podium-section">
+      <div class="podium-header">
+        <h2 class="podium-title">
+          <span>🏆</span>
+          <span id="podium-heading-text">Podium</span>
+        </h2>
+      </div>
+
+      <div class="podium-stage-trio" id="podium-stage">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Leaderboard Section (Dual-Column TV Grid: Ranks 1 to 10+ visible on 1 screen) -->
+    <section class="leaderboard-section">
+      <div class="section-toolbar">
+        <h2 class="section-heading">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span>Standings</span>
+        </h2>
+      </div>
+
+      <!-- Leaderboard Dual Column Grid (Ranks 1 to 10+ all on screen) -->
+      <div class="leaderboard-grid" id="leaderboard-list">
+        <!-- Injected dynamically via app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: Easy User Creation (No passwords, instant) -->
+  <div class="modal-overlay" id="modal-add-user">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>👤</span>
+          <span>Create New Participant</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal title="Exit (ESC)">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-user-name">User Name / Display Name</label>
+          <input type="text" id="new-user-name" class="form-input" placeholder="e.g. Alex Trader, Maya..." autofocus />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pick Avatar</label>
+          <div class="avatar-selector" id="avatar-choices">
+            <div class="avatar-choice selected" tabindex="0" data-avatar="🦁">🦁</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🚀">🚀</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="⚡">⚡</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🐺">🐺</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="💎">💎</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🔥">🔥</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🦅">🦅</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🎯">🎯</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="👑">👑</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🦈">🦈</div>
+          </div>
+        </div>
+
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          ✨ No password required. User profile will be permanently saved and remembered on this system.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Exit</button>
+        <button class="btn btn-primary" id="btn-save-new-user">Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Day's Start - Pick Stocks for User -->
+  <div class="modal-overlay" id="modal-pick-stocks">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>📈</span>
+          <span>Day's Start: Select Stocks</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal title="Exit (ESC)">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Select Participant</label>
+          <select id="pick-user-select" class="form-input" style="cursor: pointer;">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <!-- TradingView Symbol Search with Autocomplete -->
+        <div class="form-group" style="position: relative;">
+          <label class="form-label">Search Indian Stocks (NSE / BSE)</label>
+          <input type="text" id="stock-search-input" class="form-input" placeholder="Type stock name or ticker (e.g. RELIANCE, TCS, INFY, HDFCBANK, ITC, TATA)..." autocomplete="off" />
+          <div class="search-results-dropdown" id="search-dropdown" style="display: none;"></div>
+        </div>
+
+        <!-- Quick Presets (100% Indian Stocks) -->
+        <div class="form-group">
+          <label class="form-label">Quick Pick Top Indian Stocks</label>
+          <div class="preset-chips-box">
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:RELIANCE">+ RELIANCE</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:TCS">+ TCS</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:HDFCBANK">+ HDFCBANK</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:INFY">+ INFY</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:ICICIBANK">+ ICICIBANK</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:SBIN">+ SBIN</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:BHARTIARTL">+ BHARTIARTL</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:ITC">+ ITC</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:LT">+ L&T</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:BAJFINANCE">+ BAJAJ FIN</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:TATASTEEL">+ TATA STEEL</span>
+            <span class="preset-chip" tabindex="0" data-ticker="NSE:TITAN">+ TITAN</span>
+          </div>
+        </div>
+
+        <!-- Selected Stocks in User's Portfolio -->
+        <div class="form-group">
+          <label class="form-label">Current Portfolio Selection (<span id="selected-count">0</span> stocks)</label>
+          <div class="selected-stocks-list" id="selected-stocks-container">
+            <!-- Selected stocks list -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Exit</button>
+        <button class="btn btn-primary" id="btn-save-portfolio">Lock In Portfolio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Day End & New Day Manager -->
+  <div class="modal-overlay" id="modal-day-settings">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>⚙️</span>
+          <span>Session Controls</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal title="Exit (ESC)">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.95rem; color: var(--text-secondary);">
+          Manage the daily trading competition state or initiate a fresh trading day.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <button class="btn btn-gold" id="btn-confirm-end-day" style="width: 100%; justify-content: flex-start; padding: 0.9rem 1.25rem;">
+            🏆 <strong>Finalize Day & Reveal Winners (1st, 2nd, 3rd)</strong>
+          </button>
+
+          <button class="btn btn-primary" id="btn-start-fresh-day" style="width: 100%; justify-content: flex-start; padding: 0.9rem 1.25rem;">
+            🌅 <strong>Start New Trading Day (Keeps All Portfolios Saved)</strong>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

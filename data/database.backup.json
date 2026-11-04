@@ -1,0 +1,406 @@
+{
+  "mode": "LIVE",
+  "currentDate": "2026-11-04",
+  "users": [
+    {
+      "id": "usr_david",
+      "name": "David Kim",
+      "avatar": "💎",
+      "color": "#A855F7",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:BAJFINANCE",
+          "symbol": "BAJFINANCE",
+          "name": "Bajaj Finance",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 994,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:TITAN",
+          "symbol": "TITAN",
+          "name": "Titan Company",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 4754,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_alex",
+      "name": "Alex Vance",
+      "avatar": "⚡",
+      "color": "#38BDF8",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:HDFCBANK",
+          "symbol": "HDFCBANK",
+          "name": "HDFC Bank",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 736,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:ICICIBANK",
+          "symbol": "ICICIBANK",
+          "name": "ICICI Bank",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1424,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_sam",
+      "name": "Sam Altman",
+      "avatar": "🚀",
+      "color": "#10B981",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:SBIN",
+          "symbol": "SBIN",
+          "name": "State Bank of India",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 979,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:RELIANCE",
+          "symbol": "RELIANCE",
+          "name": "Reliance Industries",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1311,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_sophia",
+      "name": "Sophia Martinez",
+      "avatar": "🔥",
+      "color": "#EC4899",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:BHARTIARTL",
+          "symbol": "BHARTIARTL",
+          "name": "Bharti Airtel",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 2067,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:ITC",
+          "symbol": "ITC",
+          "name": "ITC Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 280,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_chen",
+      "name": "Michael Chen",
+      "avatar": "🐺",
+      "color": "#6366F1",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:TATASTEEL",
+          "symbol": "TATASTEEL",
+          "name": "Tata Steel",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 179,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:LT",
+          "symbol": "LT",
+          "name": "Larsen & Toubro",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 3944,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_priya",
+      "name": "Priya Patel",
+      "avatar": "👑",
+      "color": "#14B8A6",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:HDFCBANK",
+          "symbol": "HDFCBANK",
+          "name": "HDFC Bank",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 725,
+          "addedAt": "2026-11-04T11:32:52.004Z"
+        },
+        {
+          "ticker": "NSE:RELIANCE",
+          "symbol": "RELIANCE",
+          "name": "Reliance",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1308,
+          "addedAt": "2026-11-04T11:32:52.004Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_rohan",
+      "name": "Rohan Sharma",
+      "avatar": "🦁",
+      "color": "#F59E0B",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:RELIANCE",
+          "symbol": "RELIANCE",
+          "name": "Reliance",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1308,
+          "addedAt": "2026-11-04T11:32:52.004Z"
+        },
+        {
+          "ticker": "NSE:INFY",
+          "symbol": "INFY",
+          "name": "Infosys",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1148,
+          "addedAt": "2026-11-04T11:32:52.004Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_liam",
+      "name": "Liam O'Connor",
+      "avatar": "🦈",
+      "color": "#E11D48",
+      "createdAt": "2026-11-04T11:32:52.004Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:TCS",
+          "symbol": "TCS",
+          "name": "Tata Consultancy",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 2490,
+          "addedAt": "2026-11-04T11:32:52.004Z"
+        },
+        {
+          "ticker": "NSE:MARUTI",
+          "symbol": "MARUTI",
+          "name": "Maruti Suzuki",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 11995,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_lucas",
+      "name": "Lucas Silva",
+      "avatar": "🎯",
+      "color": "#F59E0B",
+      "createdAt": "2026-11-04T11:33:06.777Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:SUNPHARMA",
+          "symbol": "SUNPHARMA",
+          "name": "Sun Pharma",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 1773,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:KOTAKBANK",
+          "symbol": "KOTAKBANK",
+          "name": "Kotak Mahindra Bank",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 459,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_elena",
+      "name": "Elena Rostova",
+      "avatar": "🦅",
+      "color": "#38BDF8",
+      "createdAt": "2026-11-04T11:33:06.777Z",
+      "isLocked": true,
+      "portfolio": [
+        {
+          "ticker": "NSE:WIPRO",
+          "symbol": "WIPRO",
+          "name": "Wipro Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 194,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        },
+        {
+          "ticker": "NSE:BAJFINANCE",
+          "symbol": "BAJFINANCE",
+          "name": "Bajaj Finance",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 994,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ]
+    },
+    {
+      "id": "usr_1793792000200_hl1d",
+      "name": "Tribankur",
+      "avatar": "🦅",
+      "color": "#10B981",
+      "createdAt": "2026-11-04T11:33:20.200Z",
+      "portfolio": [
+        {
+          "ticker": "NSE:HINDZINC",
+          "symbol": "HINDZINC",
+          "name": "Hindustan Zinc Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 550.15,
+          "addedAt": "2026-11-04T11:33:39.689Z"
+        },
+        {
+          "ticker": "NSE:PINELABS",
+          "symbol": "PINELABS",
+          "name": "Pine Labs Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 157.77,
+          "addedAt": "2026-11-04T11:33:39.689Z"
+        }
+      ],
+      "isLocked": true
+    },
+    {
+      "id": "usr_1793792623347_i4ue",
+      "name": "Deep",
+      "avatar": "🎯",
+      "color": "#E11D48",
+      "createdAt": "2026-11-04T11:43:43.347Z",
+      "portfolio": [
+        {
+          "ticker": "NSE:SAIL",
+          "symbol": "SAIL",
+          "name": "Steel Authority of India Limited",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 170.49,
+          "addedAt": "2026-11-04T11:43:52.883Z"
+        },
+        {
+          "ticker": "NSE:TITAN",
+          "symbol": "TITAN",
+          "name": "Titan Company",
+          "exchange": "NSE",
+          "currency": "INR",
+          "entryPrice": 4754,
+          "addedAt": "2026-11-04T12:10:14.257Z"
+        }
+      ],
+      "isLocked": true
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-11-04",
+      "endedAt": "2026-11-04T11:28:26.348Z",
+      "rankings": [
+        {
+          "userId": "usr_david",
+          "userName": "David Kim",
+          "avatar": "💎",
+          "rank": 1,
+          "returnPercent": 1.55,
+          "stocks": [
+            "BTCUSDT"
+          ]
+        },
+        {
+          "userId": "usr_1793791698839_tgok",
+          "userName": "Sam Altman",
+          "avatar": "🚀",
+          "rank": 2,
+          "returnPercent": 1.3,
+          "stocks": [
+            "NVDA",
+            "SPY"
+          ]
+        },
+        {
+          "userId": "usr_alex",
+          "userName": "Alex Vance",
+          "avatar": "⚡",
+          "rank": 3,
+          "returnPercent": 1.24,
+          "stocks": [
+            "NVDA",
+            "TSLA",
+            "MSFT"
+          ]
+        },
+        {
+          "userId": "usr_rohan",
+          "userName": "Rohan Sharma",
+          "avatar": "🦁",
+          "rank": 4,
+          "returnPercent": -0.75,
+          "stocks": [
+            "RELIANCE",
+            "INFY"
+          ]
+        },
+        {
+          "userId": "usr_elena",
+          "userName": "Elena Rostova",
+          "avatar": "🚀",
+          "rank": 5,
+          "returnPercent": -0.8,
+          "stocks": [
+            "AAPL",
+            "SPY"
+          ]
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2026-11-04T12:10:14.257Z"
+}
