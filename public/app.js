@@ -147,10 +147,15 @@ function renderPodium() {
     if (!user) {
       return `
         <div class="podium-compact-card ${rankClass}" style="opacity: 0.4;">
-          <div class="podium-card-medal">${medalIcon}</div>
-          <div class="podium-card-avatar">?</div>
-          <div class="podium-card-details">
-            <span class="podium-card-name">Open Slot #${rankNum}</span>
+          <div class="podium-card-top">
+            <div class="podium-user-info">
+              <div class="podium-card-medal">${medalIcon}</div>
+              <div class="podium-card-avatar">?</div>
+              <div class="podium-name-group">
+                <span class="podium-rank-label">#${rankNum} Place</span>
+                <span class="podium-card-name">Open Slot</span>
+              </div>
+            </div>
           </div>
         </div>
       `;
@@ -173,19 +178,27 @@ function renderPodium() {
 
     return `
       <div class="podium-compact-card ${rankClass}" tabindex="0" onclick="openPickStocksModal('${user.id}')" title="${medalTitle}: ${user.name}">
-        <div class="podium-card-medal">${medalIcon}</div>
-        <div class="podium-card-avatar">
-          ${user.avatar || '👤'}
-        </div>
-        <div class="podium-card-details">
-          <div class="podium-card-name">${user.name}</div>
-          <div class="podium-card-stocks">
-            ${stockTags || '<span style="font-size: 0.65rem; color: var(--text-muted);">No picks</span>'}
+        <!-- Top Row: User identity on Left, Return % on Right (Zero Overlap) -->
+        <div class="podium-card-top">
+          <div class="podium-user-info">
+            <div class="podium-card-medal">${medalIcon}</div>
+            <div class="podium-card-avatar">
+              ${user.avatar || '👤'}
+            </div>
+            <div class="podium-name-group">
+              <span class="podium-rank-label">#${rankNum} • ${rankNum === "1" ? "Champion" : "Podium"}</span>
+              <span class="podium-card-name" title="${user.name}">${user.name}</span>
+            </div>
+          </div>
+          <div class="podium-card-return ${retClass}">
+            <span>${arrow}</span>
+            <span>${sign}${user.portfolioReturn.toFixed(2)}%</span>
           </div>
         </div>
-        <div class="podium-card-return ${retClass}">
-          <span>${arrow}</span>
-          <span>${sign}${user.portfolioReturn.toFixed(2)}%</span>
+
+        <!-- Bottom Row: Stock Holdings (Full Width) -->
+        <div class="podium-card-stocks">
+          ${stockTags || '<span style="font-size: 0.68rem; color: var(--text-muted); font-style: italic;">No picks</span>'}
         </div>
       </div>
     `;

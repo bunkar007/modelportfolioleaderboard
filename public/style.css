@@ -198,7 +198,9 @@ body {
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  min-width: max-content;
 }
 
 .brand-icon-box {
@@ -210,6 +212,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .brand-title {
@@ -217,7 +220,8 @@ body {
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #ffffff;
-  line-height: 1.15;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .brand-subtitle {
@@ -227,6 +231,7 @@ body {
   align-items: center;
   gap: 0.35rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .status-badge {
@@ -448,19 +453,19 @@ body.tv-mode #floating-exit-tv-btn {
   align-items: stretch;
 }
 
-/* Individual Podium Card: Clean Dark Glass */
+/* Individual Podium Card: Clean Dark Glass Container */
 .podium-compact-card {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.55rem 0.85rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   background: rgba(18, 22, 32, 0.45);
   transition: var(--transition-smooth);
   position: relative;
-  overflow: hidden;
-  min-height: 60px;
+  min-height: 85px;
 }
 
 .podium-compact-card:hover {
@@ -488,67 +493,125 @@ body.tv-mode #floating-exit-tv-btn {
   border-color: rgba(217, 119, 6, 0.2);
 }
 
+/* Top Row: User identity on Left, Return on Right (Never Collides) */
+.podium-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.podium-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
+}
+
 .podium-card-medal {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 .rank-1-card .podium-card-medal {
-  font-size: 1.8rem;
+  font-size: 1.65rem;
 }
 
 .podium-card-avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
 }
 .rank-1-card .podium-card-avatar {
-  width: 44px;
-  height: 44px;
-  font-size: 1.4rem;
+  width: 38px;
+  height: 38px;
+  font-size: 1.25rem;
   border-color: rgba(245, 158, 11, 0.4);
 }
 
-.podium-card-details {
+.podium-name-group {
   display: flex;
   flex-direction: column;
-  flex: 1;
   min-width: 0;
-  gap: 3px;
+  flex: 1;
+}
+
+.podium-rank-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  line-height: 1.1;
+}
+.rank-1-card .podium-rank-label {
+  color: var(--champagne-gold);
 }
 
 .podium-card-name {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
 }
 .rank-1-card .podium-card-name {
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
+.podium-card-return {
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+.rank-1-card .podium-card-return {
+  font-size: 1.2rem;
+}
+.podium-card-return.positive {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+}
+.podium-card-return.negative {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* Bottom Row: Full width stock holdings (Zero Overlap with Return %) */
 .podium-card-stocks {
   display: flex;
-  gap: 0.25rem;
-  margin-top: 2px;
+  gap: 0.3rem;
   flex-wrap: wrap;
   align-items: center;
+  width: 100%;
+  padding-top: 0.35rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .podium-stock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   font-size: 0.68rem;
   font-weight: 600;
-  padding: 1px 5px;
+  padding: 1.5px 6px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -556,27 +619,6 @@ body.tv-mode #floating-exit-tv-btn {
   white-space: nowrap;
   line-height: 1.2;
 }
-
-.podium-card-return {
-  font-size: 1.1rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  flex-shrink: 0;
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-}
-.rank-1-card .podium-card-return {
-  font-size: 1.25rem;
-}
-.podium-card-return.positive {
-  color: #34d399;
-  background: rgba(16, 185, 129, 0.15);
-}
-.podium-card-return.negative {
-  color: #f87171;
-  background: rgba(239, 68, 68, 0.15);
 }
 
 /* ========================================================= */
@@ -838,21 +880,42 @@ body.tv-mode .ticker-item {
 body.tv-mode .app-header {
   padding: 0.5rem 2rem;
 }
+body.tv-mode .header-brand {
+  gap: 0.85rem;
+  flex-shrink: 0;
+  min-width: max-content;
+}
+body.tv-mode .brand-icon-box {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
 body.tv-mode .brand-title {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
+  white-space: nowrap;
+}
+body.tv-mode .brand-subtitle {
+  font-size: 0.78rem;
+  white-space: nowrap;
 }
 
 body.tv-mode .podium-section {
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
 }
 body.tv-mode .podium-compact-card {
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1.1rem;
+  min-height: 95px;
 }
 body.tv-mode .podium-card-name {
   font-size: 1.15rem;
 }
 body.tv-mode .podium-card-return {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  padding: 0.25rem 0.65rem;
+}
+body.tv-mode .podium-stock-tag {
+  font-size: 0.78rem;
+  padding: 2px 7px;
 }
 
 body.tv-mode .leaderboard-row {
