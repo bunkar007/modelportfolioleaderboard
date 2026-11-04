@@ -174,7 +174,7 @@ function renderPodium() {
     return `
       <div class="podium-compact-card ${rankClass}" tabindex="0" onclick="openPickStocksModal('${user.id}')" title="${medalTitle}: ${user.name}">
         <div class="podium-card-medal">${medalIcon}</div>
-        <div class="podium-card-avatar" style="border-color: ${user.color || 'var(--border-highlight)'};">
+        <div class="podium-card-avatar">
           ${user.avatar || '👤'}
         </div>
         <div class="podium-card-details">
@@ -247,7 +247,7 @@ function renderLeaderboard() {
           <!-- Left: Rank + Avatar + Name -->
           <div class="row-left-group">
             <div class="rank-badge">#${user.rank}</div>
-            <div class="user-avatar-circle" style="border-color: ${user.color || 'transparent'};">
+            <div class="user-avatar-circle">
               ${user.avatar || '👤'}
             </div>
             <span class="user-row-name" title="${user.name}">${user.name}</span>
@@ -457,7 +457,7 @@ stockSearchInput.addEventListener("input", (e) => {
             </span>
             <span class="search-item-desc">${r.description}</span>
           </div>
-          <span style="color: var(--cyan); font-weight: bold;">+ Add</span>
+          <span style="color: #f8fafc; font-weight: 600; font-size: 0.85rem;">+ Add</span>
         </div>
       `
         )

@@ -1,38 +1,32 @@
-/* style.css - Premium Dark TV-Ready TradingView Leaderboard */
+/* style.css - Minimal, Classy, Monochromatic TradingView Leaderboard */
 
 :root {
-  --bg-deep: #07090e;
-  --bg-surface: #0f1523;
-  --bg-surface-elevated: #162035;
-  --bg-card: rgba(19, 27, 46, 0.8);
-  --bg-card-hover: rgba(28, 41, 68, 0.95);
+  --bg-deep: #08090d;
+  --bg-surface: #0f1218;
+  --bg-surface-elevated: #151922;
+  --bg-card: rgba(18, 22, 31, 0.7);
+  --bg-card-hover: rgba(26, 32, 45, 0.85);
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-highlight: rgba(255, 255, 255, 0.18);
-  --border-active: rgba(56, 189, 248, 0.4);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-highlight: rgba(255, 255, 255, 0.12);
+  --border-active: rgba(255, 255, 255, 0.28);
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   
-  --accent-green: #10b981;
-  --accent-green-glow: rgba(16, 185, 129, 0.25);
-  --accent-red: #ef4444;
-  --accent-red-glow: rgba(239, 68, 68, 0.25);
+  /* Classy, restrained financial accents */
+  --accent-green: #34d399;
+  --accent-red: #f87171;
   
-  --gold: #f59e0b;
-  --gold-glow: rgba(245, 158, 11, 0.35);
-  --silver: #cbd5e1;
-  --silver-glow: rgba(203, 213, 225, 0.25);
-  --bronze: #d97706;
-  --bronze-glow: rgba(217, 119, 6, 0.25);
-  
-  --cyan: #38bdf8;
-  --cyan-glow: rgba(56, 189, 248, 0.3);
+  /* Understated champagne & platinum rank highlights */
+  --champagne-gold: #fbbf24;
+  --platinum-silver: #e2e8f0;
+  --warm-bronze: #d97706;
 
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --radius-lg: 14px;
+  --radius-lg: 12px;
   --radius-md: 8px;
   --radius-sm: 5px;
 }
@@ -45,10 +39,7 @@
 
 body {
   background-color: var(--bg-deep);
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 15% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 40%);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.035) 0%, transparent 60%);
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-family);
@@ -62,8 +53,8 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-deep);
@@ -75,13 +66,13 @@ body {
 
 /* TV Ticker Tape Marquee */
 .ticker-tape-container {
-  background: rgba(10, 15, 26, 0.96);
+  background: #090b10;
   border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
   white-space: nowrap;
   position: relative;
   z-index: 50;
-  height: 36px;
+  height: 34px;
   display: flex;
   align-items: center;
 }
@@ -89,44 +80,44 @@ body {
 .ticker-prefix-block {
   display: flex;
   align-items: center;
-  background: #0f172a;
-  border-right: 1px solid var(--border-highlight);
+  background: #0d1017;
+  border-right: 1px solid var(--border-subtle);
   height: 100%;
   padding: 0 0.85rem;
-  gap: 0.75rem;
+  gap: 0.65rem;
   z-index: 2;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
 }
 
 .live-clock-badge {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.825rem;
-  font-weight: 700;
-  color: #38bdf8;
-  font-family: monospace;
-  background: rgba(56, 189, 248, 0.12);
-  padding: 2px 8px;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 7px;
   border-radius: 4px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  border: 1px solid var(--border-subtle);
 }
 
 .clock-dot {
-  width: 6px;
-  height: 6px;
-  background: #38bdf8;
+  width: 5px;
+  height: 5px;
+  background: var(--accent-green);
   border-radius: 50%;
-  box-shadow: 0 0 6px #38bdf8;
-  animation: pulseAnimation 1.5s infinite;
+  box-shadow: 0 0 5px rgba(52, 211, 153, 0.6);
+  animation: pulseAnimation 2s infinite;
 }
 
 .ticker-source-tag {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #fbbf24;
-  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -149,23 +140,23 @@ body {
 .ticker-item {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.82rem;
+  gap: 0.45rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  padding: 2px 10px;
+  padding: 2px 8px;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
 }
 
 .ticker-rank-tag {
-  font-size: 0.68rem;
-  font-weight: 800;
-  background: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.07);
+  color: #e2e8f0;
   padding: 1px 5px;
   border-radius: 3px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .ticker-symbol {
@@ -191,7 +182,7 @@ body {
 
 /* Header */
 .app-header {
-  background: rgba(15, 21, 35, 0.88);
+  background: rgba(11, 14, 21, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
   padding: 0.45rem 1.5rem;
@@ -214,21 +205,18 @@ body {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, #1e293b, #0f172a);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-highlight);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
 .brand-title {
   font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: -0.01em;
-  background: linear-gradient(120deg, #ffffff 30%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
   line-height: 1.15;
 }
 
@@ -238,16 +226,16 @@ body {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 9999px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -255,105 +243,117 @@ body {
 }
 
 .status-badge.live {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(52, 211, 153, 0.08);
   color: #34d399;
-  border-color: rgba(16, 185, 129, 0.3);
+  border-color: rgba(52, 211, 153, 0.2);
 }
 
 .status-badge.live .pulse-dot {
-  width: 7px;
-  height: 7px;
-  background-color: #10b981;
+  width: 6px;
+  height: 6px;
+  background-color: #34d399;
   border-radius: 50%;
-  box-shadow: 0 0 6px #10b981;
-  animation: pulseAnimation 1.8s infinite;
+  animation: pulseAnimation 2s infinite;
 }
 
 @keyframes pulseAnimation {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }
 
 .status-badge.day-end {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .header-controls {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.55rem;
 }
 
-/* Buttons */
+/* Minimal Luxury Button Suite */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.45rem 0.9rem;
+  padding: 0.42rem 0.85rem;
   border-radius: var(--radius-md);
-  font-size: 0.825rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-smooth);
-  border: 1px solid transparent;
+  border: 1px solid var(--border-subtle);
   outline: none;
   user-select: none;
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
+/* Primary Action (Select Stocks): Clean crisp solid white */
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: white;
-  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+  background: #f8fafc;
+  color: #090b10;
+  border-color: #f8fafc;
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: #e2e8f0;
+  border-color: #e2e8f0;
+  transform: translateY(-1px);
 }
 
+/* Secondary Action (+ User): Refined dark glass */
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f1f5f9;
   border: 1px solid var(--border-subtle);
 }
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.09);
   border-color: var(--border-highlight);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
+/* Session / Day's End: Subtle champagne gold border, not bright orange */
 .btn-gold {
-  background: linear-gradient(135deg, #d97706, #b45309);
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(217, 119, 6, 0.25);
+  background: rgba(245, 158, 11, 0.06);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: rgba(245, 158, 11, 0.14);
+  border-color: rgba(245, 158, 11, 0.4);
+  transform: translateY(-1px);
 }
 
+/* TV Mode: Clean minimal glass */
 .btn-tv {
-  background: rgba(56, 189, 248, 0.12);
-  color: var(--cyan);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  border: 1px solid var(--border-subtle);
 }
 .btn-tv:hover {
-  background: rgba(56, 189, 248, 0.22);
-  border-color: var(--cyan);
-  box-shadow: 0 0 12px var(--cyan-glow);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--border-highlight);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(248, 113, 113, 0.08);
   color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(248, 113, 113, 0.2);
 }
 .btn-danger:hover {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(248, 113, 113, 0.16);
 }
 
 .btn-icon-only {
@@ -361,31 +361,32 @@ body {
   border-radius: var(--radius-sm);
 }
 
-/* Floating Exit TV Button (Always visible on TV Mode) */
+/* Floating Exit TV Button (Minimal) */
 #floating-exit-tv-btn {
   display: none;
   position: fixed;
   top: 14px;
   right: 20px;
   z-index: 99999;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 20, 30, 0.95);
   backdrop-filter: blur(12px);
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 0.6rem 1.2rem;
-  font-size: 0.95rem;
-  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   border-radius: 9999px;
   cursor: pointer;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   align-items: center;
   gap: 0.5rem;
   transition: var(--transition-smooth);
 }
 #floating-exit-tv-btn:hover {
-  background: #ef4444;
-  border-color: #ef4444;
-  transform: scale(1.04);
+  background: rgba(248, 113, 113, 0.2);
+  border-color: #f87171;
+  color: #f87171;
+  transform: scale(1.02);
 }
 body.tv-mode #floating-exit-tv-btn {
   display: flex !important;
@@ -411,11 +412,10 @@ body.tv-mode #floating-exit-tv-btn {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: linear-gradient(180deg, rgba(22, 32, 53, 0.65) 0%, rgba(15, 21, 35, 0.4) 100%);
+  background: rgba(15, 18, 25, 0.45);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 0.65rem 1rem;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .podium-header {
@@ -427,7 +427,7 @@ body.tv-mode #floating-exit-tv-btn {
 
 .podium-title {
   font-size: 0.95rem;
-  font-weight: 800;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -436,19 +436,19 @@ body.tv-mode #floating-exit-tv-btn {
 }
 
 .podium-subtitle {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 0.75rem;
 }
 
 /* Sleek Trio Podium Cards Container */
 .podium-stage-trio {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
+  grid-template-columns: 1fr 1.15fr 1fr;
   gap: 0.75rem;
   align-items: stretch;
 }
 
-/* Individual Podium Card */
+/* Individual Podium Card: Clean Dark Glass */
 .podium-compact-card {
   display: flex;
   align-items: center;
@@ -456,7 +456,7 @@ body.tv-mode #floating-exit-tv-btn {
   padding: 0.55rem 0.85rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
-  background: rgba(15, 21, 35, 0.7);
+  background: rgba(18, 22, 32, 0.45);
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
@@ -464,55 +464,57 @@ body.tv-mode #floating-exit-tv-btn {
 }
 
 .podium-compact-card:hover {
-  transform: translateY(-2px);
+  background: rgba(25, 30, 44, 0.65);
+  border-color: var(--border-highlight);
+  transform: translateY(-1px);
 }
 
-/* Rank 1 (Gold Champion) */
+/* Rank 1 (Gold Champion): Understated Warm Champagne Accent */
 .podium-compact-card.rank-1-card {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(19, 27, 46, 0.85) 100%);
-  border-color: var(--gold);
-  box-shadow: 0 0 16px var(--gold-glow);
+  background: rgba(24, 28, 38, 0.7);
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
 }
 
-/* Rank 2 (Silver) */
+/* Rank 2 (Silver): Refined Platinum Accent */
 .podium-compact-card.rank-2-card {
-  background: linear-gradient(135deg, rgba(203, 213, 225, 0.12) 0%, rgba(19, 27, 46, 0.85) 100%);
-  border-color: var(--silver);
+  background: rgba(20, 24, 34, 0.55);
+  border-color: rgba(226, 232, 240, 0.18);
 }
 
-/* Rank 3 (Bronze) */
+/* Rank 3 (Bronze): Understated Warm Bronze Accent */
 .podium-compact-card.rank-3-card {
-  background: linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, rgba(19, 27, 46, 0.85) 100%);
-  border-color: var(--bronze);
+  background: rgba(20, 24, 34, 0.55);
+  border-color: rgba(217, 119, 6, 0.2);
 }
 
 .podium-card-medal {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 1;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 .rank-1-card .podium-card-medal {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .podium-card-avatar {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  background: var(--bg-surface-elevated);
-  border: 2px solid var(--border-highlight);
+  font-size: 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
 }
 .rank-1-card .podium-card-avatar {
-  width: 46px;
-  height: 46px;
-  font-size: 1.5rem;
-  border-color: var(--gold);
+  width: 44px;
+  height: 44px;
+  font-size: 1.4rem;
+  border-color: rgba(245, 158, 11, 0.4);
 }
 
 .podium-card-details {
@@ -545,27 +547,28 @@ body.tv-mode #floating-exit-tv-btn {
 
 .podium-stock-tag {
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 1px 5px;
   border-radius: 3px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #cbd5e1;
   white-space: nowrap;
   line-height: 1.2;
 }
 
 .podium-card-return {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   gap: 0.2rem;
   flex-shrink: 0;
-  padding: 0.2rem 0.55rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 6px;
 }
 .rank-1-card .podium-card-return {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
 }
 .podium-card-return.positive {
   color: #34d399;
@@ -614,7 +617,7 @@ body.tv-mode #floating-exit-tv-btn {
 
 /* Compact Leaderboard Row (~48px height, auto-expanding on multi-stock wrap) */
 .leaderboard-row {
-  background: var(--bg-card);
+  background: rgba(18, 22, 32, 0.5);
   backdrop-filter: blur(8px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -629,21 +632,21 @@ body.tv-mode #floating-exit-tv-btn {
 }
 
 .leaderboard-row:hover {
-  background: var(--bg-card-hover);
+  background: rgba(26, 32, 46, 0.75);
   border-color: var(--border-highlight);
   transform: translateY(-1px);
 }
 
-/* Highlight top 3 inside the grid */
+/* Subtle border accents for top 3 - no noisy background gradients */
 .leaderboard-row.rank-1-row {
-  border-color: rgba(245, 158, 11, 0.4);
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 70%);
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(22, 26, 36, 0.65);
 }
 .leaderboard-row.rank-2-row {
-  border-color: rgba(203, 213, 225, 0.35);
+  border-color: rgba(226, 232, 240, 0.15);
 }
 .leaderboard-row.rank-3-row {
-  border-color: rgba(217, 119, 6, 0.35);
+  border-color: rgba(217, 119, 6, 0.15);
 }
 
 /* Left Group: Rank + Avatar + Name (Stable Dedicated Width) */
@@ -664,24 +667,27 @@ body.tv-mode #floating-exit-tv-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 800;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
   flex-shrink: 0;
 }
 
 .rank-1-row .rank-badge {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #fff;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 .rank-2-row .rank-badge {
-  background: linear-gradient(135deg, #cbd5e1, #64748b);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 .rank-3-row .rank-badge {
-  background: linear-gradient(135deg, #d97706, #92400e);
-  color: #fff;
+  background: rgba(217, 119, 6, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(217, 119, 6, 0.22);
 }
 
 .user-avatar-circle {
@@ -692,14 +698,14 @@ body.tv-mode #floating-exit-tv-btn {
   align-items: center;
   justify-content: center;
   font-size: 0.95rem;
-  background: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   flex-shrink: 0;
 }
 
 .user-row-name {
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -725,23 +731,22 @@ body.tv-mode #floating-exit-tv-btn {
   gap: 0.25rem;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   font-size: 0.72rem;
   line-height: 1.15;
   white-space: nowrap;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .stock-tag-sym {
-  font-weight: 700;
-  color: #f8fafc;
+  font-weight: 600;
+  color: #e2e8f0;
   letter-spacing: -0.01em;
 }
 
 .stock-tag-change {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.68rem;
 }
 .stock-tag-change.positive {
@@ -761,8 +766,8 @@ body.tv-mode #floating-exit-tv-btn {
 }
 
 .return-big {
-  font-size: 0.95rem;
-  font-weight: 800;
+  font-size: 0.92rem;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
@@ -772,11 +777,11 @@ body.tv-mode #floating-exit-tv-btn {
 
 .return-big.positive {
   color: var(--accent-green);
-  background: rgba(16, 185, 129, 0.12);
+  background: rgba(52, 211, 153, 0.1);
 }
 .return-big.negative {
   color: var(--accent-red);
-  background: rgba(239, 68, 68, 0.12);
+  background: rgba(248, 113, 113, 0.1);
 }
 
 .row-actions-btn {
@@ -1002,8 +1007,8 @@ body.tv-mode .row-actions-btn {
 }
 
 .form-input:focus {
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 
 /* Avatar Selection Grid */
@@ -1017,8 +1022,8 @@ body.tv-mode .row-actions-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 1.3rem;
   display: flex;
   align-items: center;
@@ -1028,13 +1033,13 @@ body.tv-mode .row-actions-btn {
 }
 
 .avatar-choice:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .avatar-choice.selected {
-  border-color: var(--cyan);
-  background: rgba(56, 189, 248, 0.2);
-  transform: scale(1.08);
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  transform: scale(1.06);
 }
 
 /* Stock Search Autocomplete */
@@ -1063,7 +1068,7 @@ body.tv-mode .row-actions-btn {
 }
 
 .search-item:hover {
-  background: rgba(56, 189, 248, 0.15);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .search-item-info {
@@ -1088,7 +1093,7 @@ body.tv-mode .row-actions-btn {
   font-size: 0.65rem;
   padding: 1px 5px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--text-muted);
 }
 
@@ -1102,7 +1107,7 @@ body.tv-mode .row-actions-btn {
 .preset-chip {
   padding: 0.25rem 0.6rem;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
   font-size: 0.75rem;
   font-weight: 600;
@@ -1112,9 +1117,9 @@ body.tv-mode .row-actions-btn {
 }
 
 .preset-chip:hover {
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-color: var(--cyan);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Selected Portfolio Stocks in Modal */
@@ -1145,7 +1150,7 @@ body.tv-mode .row-actions-btn {
 }
 
 .remove-stock-btn:hover {
-  color: #ef4444;
+  color: var(--accent-red);
 }
 
 /* Responsive Fallback for Tablets/Phones & narrower windows */
@@ -1169,10 +1174,10 @@ body.tv-mode .row-actions-btn {
 /* ========================================================= */
 :focus-visible,
 .tv-nav-focus {
-  outline: 3.5px solid #38bdf8 !important;
-  outline-offset: 3px !important;
-  box-shadow: 0 0 28px rgba(56, 189, 248, 0.95), inset 0 0 10px rgba(56, 189, 248, 0.3) !important;
-  transform: scale(1.035) !important;
+  outline: 2.5px solid #ffffff !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.35) !important;
+  transform: scale(1.02) !important;
   z-index: 100 !important;
   transition: transform 0.12s ease, box-shadow 0.12s ease, outline 0.12s ease !important;
 }
@@ -1184,8 +1189,8 @@ body.tv-mode .row-actions-btn {
 .rank-1-row.tv-nav-focus,
 .btn-gold:focus-visible,
 .btn-gold.tv-nav-focus {
-  outline-color: #ffd700 !important;
-  box-shadow: 0 0 32px rgba(255, 215, 0, 0.95), inset 0 0 12px rgba(255, 215, 0, 0.35) !important;
+  outline-color: #fbbf24 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4) !important;
 }
 
 /* TV Remote Focus on Exit/Danger items */
@@ -1195,8 +1200,8 @@ body.tv-mode .row-actions-btn {
 .modal-close-btn.tv-nav-focus,
 #floating-exit-tv-btn:focus-visible,
 #floating-exit-tv-btn.tv-nav-focus {
-  outline-color: #ef4444 !important;
-  box-shadow: 0 0 28px rgba(239, 68, 68, 0.95) !important;
+  outline-color: var(--accent-red) !important;
+  box-shadow: 0 0 16px rgba(248, 113, 113, 0.4) !important;
 }
 
 /* Interactive elements */
