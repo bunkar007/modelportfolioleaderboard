@@ -184,7 +184,7 @@ async function handleStaticFile(reqPath: string): Promise<Response> {
   if (file) {
     const ext = filePath.substring(filePath.lastIndexOf("."));
     const contentType = MIME_TYPES[ext] || "application/octet-stream";
-    return new Response(file, {
+    return new Response(file as unknown as BodyInit, {
       status: 200,
       headers: { "Content-Type": contentType },
     });
@@ -193,14 +193,14 @@ async function handleStaticFile(reqPath: string): Promise<Response> {
   // Fallback to index.html for SPA
   try {
     const fallback = await Deno.readFile(new URL("./public/index.html", import.meta.url));
-    return new Response(fallback, {
+    return new Response(fallback as unknown as BodyInit, {
       status: 200,
       headers: { "Content-Type": "text/html; charset=utf-8" },
     });
   } catch (_fb) {
     try {
       const fallback = await Deno.readFile("./public/index.html");
-      return new Response(fallback, {
+      return new Response(fallback as unknown as BodyInit, {
         status: 200,
         headers: { "Content-Type": "text/html; charset=utf-8" },
       });
