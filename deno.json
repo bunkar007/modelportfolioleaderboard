@@ -1,7 +1,10 @@
 {
   "tasks": {
-    "start": "deno run -A --unstable-kv server.ts",
-    "build": "deno run -A dev.ts build"
+    "start": "deno run --allow-net --allow-read --allow-write server.ts",
+    "build": "echo 'Ready'"
+  },
+  "deploy": {
+    "entrypoint": "server.ts"
   },
   "unstable": ["kv"]
 }
