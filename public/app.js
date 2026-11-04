@@ -15,7 +15,6 @@ const headerDate = document.getElementById("header-date");
 const podiumSection = document.getElementById("podium-section");
 const podiumStage = document.getElementById("podium-stage");
 const podiumHeadingText = document.getElementById("podium-heading-text");
-const podiumSubtext = document.getElementById("podium-subtext");
 const leaderboardList = document.getElementById("leaderboard-list");
 const liveSyncIndicator = document.getElementById("live-sync-indicator");
 
@@ -40,7 +39,6 @@ const selectedCountBadge = document.getElementById("selected-count");
 const btnSavePortfolio = document.getElementById("btn-save-portfolio");
 const btnConfirmEndDay = document.getElementById("btn-confirm-end-day");
 const btnStartFreshDay = document.getElementById("btn-start-fresh-day");
-const btnClearAllPicks = document.getElementById("btn-clear-all-picks");
 
 // 1. Initial Load & Sync Loop
 async function fetchState() {
@@ -58,10 +56,10 @@ async function fetchState() {
     }
 
     renderAll();
-    liveSyncIndicator.textContent = "Synced " + new Date().toLocaleTimeString();
+    if (liveSyncIndicator) liveSyncIndicator.textContent = "Synced " + new Date().toLocaleTimeString();
   } catch (err) {
     console.error("Error fetching state:", err);
-    liveSyncIndicator.textContent = "Reconnecting...";
+    if (liveSyncIndicator) liveSyncIndicator.textContent = "Reconnecting...";
   }
 }
 
@@ -70,17 +68,17 @@ function renderAll() {
   if (!appState) return;
 
   // Header date and mode status
-  headerDate.textContent = appState.currentDate || new Date().toISOString().split("T")[0];
+  if (headerDate) headerDate.textContent = appState.currentDate || new Date().toISOString().split("T")[0];
 
   if (appState.mode === "DAY_END") {
-    statusPill.className = "status-badge day-end";
-    statusText.textContent = "DAY END";
+    if (statusPill) statusPill.className = "status-badge day-end";
+    if (statusText) statusText.textContent = "DAY END";
     if (podiumHeadingText) podiumHeadingText.textContent = "Winners Podium";
     const btnText = document.getElementById("btn-day-end-text");
     if (btnText) btnText.textContent = "Session";
   } else {
-    statusPill.className = "status-badge live";
-    statusText.textContent = "LIVE";
+    if (statusPill) statusPill.className = "status-badge live";
+    if (statusText) statusText.textContent = "LIVE";
     if (podiumHeadingText) podiumHeadingText.textContent = "Podium";
     const btnText = document.getElementById("btn-day-end-text");
     if (btnText) btnText.textContent = "Day's End";
@@ -381,7 +379,7 @@ pickUserSelect.addEventListener("change", (e) => {
 });
 
 function renderSelectedStocksInModal() {
-  selectedCountBadge.textContent = currentEditingStocks.length;
+  if (selectedCountBadge) selectedCountBadge.textContent = currentEditingStocks.length;
 
   if (currentEditingStocks.length === 0) {
     selectedStocksContainer.innerHTML = `
