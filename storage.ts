@@ -36,7 +36,10 @@ export interface DayArchive {
   }[];
 }
 
+export const CURRENT_STATE_VERSION = 3;
+
 export interface AppState {
+  version?: number;
   mode: "LIVE" | "DAY_END";
   currentDate: string;
   users: User[];
@@ -78,7 +81,7 @@ export function getRandomColor(): string {
   return DEFAULT_COLORS[Math.floor(Math.random() * DEFAULT_COLORS.length)];
 }
 
-// 100% Indian Stocks (NSE Bluechips)
+// Exactly 5 clean initial participants with 0 stocks
 export function getDefaultUsers(): User[] {
   const now = new Date().toISOString();
   return [
@@ -88,11 +91,8 @@ export function getDefaultUsers(): User[] {
       avatar: "👑",
       color: "#38BDF8",
       createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:HINDZINC", symbol: "HINDZINC", name: "Hindustan Zinc", exchange: "NSE", currency: "INR", entryPrice: 550, addedAt: now },
-        { ticker: "NSE:PINELABS", symbol: "PINELABS", name: "Pine Labs", exchange: "NSE", currency: "INR", entryPrice: 157, addedAt: now },
-      ],
+      isLocked: false,
+      portfolio: [],
     },
     {
       id: "usr_deep",
@@ -100,11 +100,8 @@ export function getDefaultUsers(): User[] {
       avatar: "🔥",
       color: "#F59E0B",
       createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:SAIL", symbol: "SAIL", name: "Steel Authority", exchange: "NSE", currency: "INR", entryPrice: 170, addedAt: now },
-        { ticker: "NSE:TITAN", symbol: "TITAN", name: "Titan Company", exchange: "NSE", currency: "INR", entryPrice: 4754, addedAt: now },
-      ],
+      isLocked: false,
+      portfolio: [],
     },
     {
       id: "usr_david",
@@ -112,47 +109,17 @@ export function getDefaultUsers(): User[] {
       avatar: "💎",
       color: "#A855F7",
       createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:BAJFINANCE", symbol: "BAJFINANCE", name: "Bajaj Finance", exchange: "NSE", currency: "INR", entryPrice: 994, addedAt: now },
-        { ticker: "NSE:TITAN", symbol: "TITAN", name: "Titan Company", exchange: "NSE", currency: "INR", entryPrice: 4754, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_alex",
-      name: "Alex Vance",
-      avatar: "⚡",
-      color: "#38BDF8",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:HDFCBANK", symbol: "HDFCBANK", name: "HDFC Bank", exchange: "NSE", currency: "INR", entryPrice: 736, addedAt: now },
-        { ticker: "NSE:ICICIBANK", symbol: "ICICIBANK", name: "ICICI Bank", exchange: "NSE", currency: "INR", entryPrice: 1424, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_sam",
-      name: "Sam Altman",
-      avatar: "🚀",
-      color: "#10B981",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:SBIN", symbol: "SBIN", name: "State Bank of India", exchange: "NSE", currency: "INR", entryPrice: 979, addedAt: now },
-        { ticker: "NSE:RELIANCE", symbol: "RELIANCE", name: "Reliance Industries", exchange: "NSE", currency: "INR", entryPrice: 1311, addedAt: now },
-      ],
+      isLocked: false,
+      portfolio: [],
     },
     {
       id: "usr_sophia",
       name: "Sophia Martinez",
-      avatar: "🔥",
+      avatar: "🚀",
       color: "#EC4899",
       createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:BHARTIARTL", symbol: "BHARTIARTL", name: "Bharti Airtel", exchange: "NSE", currency: "INR", entryPrice: 2067, addedAt: now },
-        { ticker: "NSE:ITC", symbol: "ITC", name: "ITC Limited", exchange: "NSE", currency: "INR", entryPrice: 280, addedAt: now },
-      ],
+      isLocked: false,
+      portfolio: [],
     },
     {
       id: "usr_chen",
@@ -160,54 +127,16 @@ export function getDefaultUsers(): User[] {
       avatar: "🐺",
       color: "#6366F1",
       createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:TATASTEEL", symbol: "TATASTEEL", name: "Tata Steel", exchange: "NSE", currency: "INR", entryPrice: 179, addedAt: now },
-        { ticker: "NSE:LT", symbol: "LT", name: "Larsen & Toubro", exchange: "NSE", currency: "INR", entryPrice: 3944, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_priya",
-      name: "Priya Patel",
-      avatar: "👑",
-      color: "#14B8A6",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:HDFCBANK", symbol: "HDFCBANK", name: "HDFC Bank", exchange: "NSE", currency: "INR", entryPrice: 736, addedAt: now },
-        { ticker: "NSE:RELIANCE", symbol: "RELIANCE", name: "Reliance Industries", exchange: "NSE", currency: "INR", entryPrice: 1311, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_rohan",
-      name: "Rohan Sharma",
-      avatar: "🦁",
-      color: "#F59E0B",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:RELIANCE", symbol: "RELIANCE", name: "Reliance Industries", exchange: "NSE", currency: "INR", entryPrice: 1311, addedAt: now },
-        { ticker: "NSE:INFY", symbol: "INFY", name: "Infosys Limited", exchange: "NSE", currency: "INR", entryPrice: 1128, addedAt: now },
-      ],
-    },
-    {
-      id: "usr_liam",
-      name: "Liam O'Connor",
-      avatar: "🦈",
-      color: "#E11D48",
-      createdAt: now,
-      isLocked: true,
-      portfolio: [
-        { ticker: "NSE:TCS", symbol: "TCS", name: "Tata Consultancy", exchange: "NSE", currency: "INR", entryPrice: 2436, addedAt: now },
-        { ticker: "NSE:MARUTI", symbol: "MARUTI", name: "Maruti Suzuki", exchange: "NSE", currency: "INR", entryPrice: 11995, addedAt: now },
-      ],
+      isLocked: false,
+      portfolio: [],
     },
   ];
 }
 
-function getDefaultState(): AppState {
+export function getDefaultState(): AppState {
   const today = new Date().toISOString().split("T")[0];
   return {
+    version: CURRENT_STATE_VERSION,
     mode: "LIVE",
     currentDate: today,
     users: getDefaultUsers(),
@@ -231,8 +160,17 @@ export async function loadState(): Promise<AppState> {
     if (kv) {
       const entry = await kv.get(["app_state"]);
       if (entry && entry.value && Array.isArray(entry.value.users)) {
-        memoryStateCache = entry.value;
-        return entry.value;
+        // Enforce state version migration so schema changes apply seamlessly
+        if (entry.value.version === CURRENT_STATE_VERSION) {
+          memoryStateCache = entry.value;
+          return entry.value;
+        } else {
+          console.log(`[STORAGE] Migrating KV state to version ${CURRENT_STATE_VERSION}...`);
+          const migratedState = getDefaultState();
+          memoryStateCache = migratedState;
+          await saveState(migratedState);
+          return migratedState;
+        }
       }
     }
   } catch (_kvErr) {
@@ -243,7 +181,7 @@ export async function loadState(): Promise<AppState> {
   try {
     const text = await Deno.readTextFile(new URL("./data/database.json", import.meta.url));
     const data = JSON.parse(text) as AppState;
-    if (data && Array.isArray(data.users)) {
+    if (data && Array.isArray(data.users) && data.version === CURRENT_STATE_VERSION) {
       memoryStateCache = data;
       // Mirror to KV if available
       const kv = await getKv();
@@ -254,7 +192,7 @@ export async function loadState(): Promise<AppState> {
     try {
       const text = await Deno.readTextFile(DB_PATH);
       const data = JSON.parse(text) as AppState;
-      if (data && Array.isArray(data.users)) {
+      if (data && Array.isArray(data.users) && data.version === CURRENT_STATE_VERSION) {
         memoryStateCache = data;
         return data;
       }
@@ -265,7 +203,7 @@ export async function loadState(): Promise<AppState> {
   try {
     const backupText = await Deno.readTextFile(DB_BACKUP_PATH);
     const backupData = JSON.parse(backupText) as AppState;
-    if (backupData && Array.isArray(backupData.users)) {
+    if (backupData && Array.isArray(backupData.users) && backupData.version === CURRENT_STATE_VERSION) {
       memoryStateCache = backupData;
       return backupData;
     }

@@ -2,6 +2,7 @@
 import {
   loadState,
   saveState,
+  getDefaultState,
   getRandomAvatar,
   getRandomColor,
   AppState,
@@ -420,6 +421,16 @@ async function requestHandler(req: Request): Promise<Response> {
     await saveState(state);
     console.log(`[DAY RESET] New trading day started: ${state.currentDate}. All ${state.users.length} portfolios preserved intact.`);
     return new Response(JSON.stringify({ success: true, state }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  // 9. POST /api/reset-users: Reset to clean 5 default participants with 0 stocks
+  if (path === "/api/reset-users" && method === "POST") {
+    const defaultState = getDefaultState();
+    await saveState(defaultState);
+    console.log(`[RESET USERS] State reset to 5 default participants with 0 stocks.`);
+    return new Response(JSON.stringify({ success: true, state: defaultState }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
