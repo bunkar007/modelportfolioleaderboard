@@ -20,6 +20,7 @@ const liveSyncIndicator = document.getElementById("live-sync-indicator");
 
 // Modals
 const modalAddUser = document.getElementById("modal-add-user");
+const modalEditUser = document.getElementById("modal-edit-user");
 const modalPickStocks = document.getElementById("modal-pick-stocks");
 const modalDaySettings = document.getElementById("modal-day-settings");
 const floatingExitTvBtn = document.getElementById("floating-exit-tv-btn");
@@ -31,6 +32,11 @@ const btnToggleDayEnd = document.getElementById("btn-toggle-day-end");
 const btnToggleTv = document.getElementById("btn-toggle-tv");
 const btnSaveNewUser = document.getElementById("btn-save-new-user");
 const newUserNameInput = document.getElementById("new-user-name");
+const editUserIdInput = document.getElementById("edit-user-id");
+const editUserNameInput = document.getElementById("edit-user-name");
+const btnSaveEditUser = document.getElementById("btn-save-edit-user");
+const btnRenameFromPicker = document.getElementById("btn-rename-from-picker");
+const btnClearAllStocks = document.getElementById("btn-clear-all-stocks");
 const pickUserSelect = document.getElementById("pick-user-select");
 const stockSearchInput = document.getElementById("stock-search-input");
 const searchDropdown = document.getElementById("search-dropdown");
@@ -277,10 +283,16 @@ function renderLeaderboard() {
               <span>${arrow}</span>
               <span>${sign}${user.portfolioReturn.toFixed(2)}%</span>
             </div>
+            <button class="row-actions-btn" onclick="event.stopPropagation(); openEditUserModal('${user.id}')" title="Edit Participant Name / Avatar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
             <button class="row-actions-btn" onclick="event.stopPropagation(); openPickStocksModal('${user.id}')" title="Edit Stocks">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                <polyline points="16 7 22 7 22 13"></polyline>
               </svg>
             </button>
             <button class="row-actions-btn" onclick="event.stopPropagation(); deleteUser('${user.id}', '${user.name}')" title="Delete User">
@@ -355,6 +367,73 @@ async function saveNewUser() {
   }
 }
 
+// 3b. User Editing / Renaming
+window.openEditUserModal = function (userId) {
+  if (!appState || !appState.users) return;
+  const targetId = userId || currentSelectedUserId;
+  const user = appState.users.find((u) => u.id === targetId);
+  if (!user) return;
+
+  editUserIdInput.value = user.id;
+  editUserNameInput.value = user.name || "";
+
+  document.querySelectorAll("#edit-avatar-choices .avatar-choice").forEach((c) => {
+    if (c.getAttribute("data-avatar") === user.avatar) {
+      c.classList.add("selected");
+    } else {
+      c.classList.remove("selected");
+    }
+  });
+
+  modalEditUser.classList.add("active");
+  setTimeout(() => editUserNameInput.focus(), 100);
+};
+
+document.querySelectorAll("#edit-avatar-choices .avatar-choice").forEach((el) => {
+  el.addEventListener("click", () => {
+    document.querySelectorAll("#edit-avatar-choices .avatar-choice").forEach((c) => c.classList.remove("selected"));
+    el.classList.add("selected");
+  });
+});
+
+async function saveEditUser() {
+  const userId = editUserIdInput.value;
+  const name = editUserNameInput.value.trim();
+  if (!name) {
+    alert("Please enter a participant name");
+    return;
+  }
+
+  const selectedAvatarEl = document.querySelector("#edit-avatar-choices .avatar-choice.selected");
+  const avatar = selectedAvatarEl ? selectedAvatarEl.getAttribute("data-avatar") : undefined;
+
+  try {
+    const res = await fetch(`/api/users/${userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, avatar }),
+    });
+
+    if (!res.ok) throw new Error("Failed to update user");
+    closeAllModals();
+    await fetchState();
+  } catch (err) {
+    alert("Error updating user: " + err.message);
+  }
+}
+
+if (btnRenameFromPicker) {
+  btnRenameFromPicker.addEventListener("click", () => {
+    if (currentSelectedUserId) {
+      openEditUserModal(currentSelectedUserId);
+    }
+  });
+}
+
+if (btnSaveEditUser) {
+  btnSaveEditUser.addEventListener("click", saveEditUser);
+}
+
 async function deleteUser(userId, userName) {
   if (!confirm(`Are you sure you want to remove participant "${userName}"?`)) return;
   try {
@@ -394,10 +473,26 @@ pickUserSelect.addEventListener("change", (e) => {
 function renderSelectedStocksInModal() {
   if (selectedCountBadge) selectedCountBadge.textContent = currentEditingStocks.length;
 
+  if (btnClearAllStocks) {
+    btnClearAllStocks.style.display = currentEditingStocks.length > 0 ? "inline-block" : "none";
+  }
+
+  // Update preset chip highlights & titles
+  document.querySelectorAll(".preset-chip").forEach((chip) => {
+    const ticker = chip.getAttribute("data-ticker");
+    if (currentEditingStocks.includes(ticker)) {
+      chip.classList.add("active");
+      chip.setAttribute("title", `Click to remove ${ticker}`);
+    } else {
+      chip.classList.remove("active");
+      chip.setAttribute("title", `Click to add ${ticker}`);
+    }
+  });
+
   if (currentEditingStocks.length === 0) {
     selectedStocksContainer.innerHTML = `
-      <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0;">
-        No stocks added yet. Search above or pick popular presets.
+      <p style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; padding: 0.6rem 0;">
+        No stocks in portfolio. Search above or click presets to add.
       </p>
     `;
     return;
@@ -406,16 +501,24 @@ function renderSelectedStocksInModal() {
   selectedStocksContainer.innerHTML = currentEditingStocks
     .map((ticker, idx) => {
       const parts = ticker.split(":");
-      const exchange = parts.length > 1 ? parts[0] : "";
+      const exchange = parts.length > 1 ? parts[0] : "NSE";
       const sym = parts.length > 1 ? parts[1] : parts[0];
 
       return `
       <div class="selected-stock-card">
-        <div>
-          <strong style="color: #fff; font-size: 0.95rem;">${sym}</strong>
-          <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 0.4rem;">${exchange}</span>
+        <div class="selected-stock-info">
+          <div class="selected-stock-sym-row">
+            <strong class="selected-stock-sym">${sym}</strong>
+            <span class="selected-stock-exchange">${exchange}</span>
+          </div>
         </div>
-        <button class="remove-stock-btn" onclick="removeStockByIndex(${idx})" title="Remove stock">✕</button>
+        <button type="button" class="btn-remove-stock" onclick="removeStockByIndex(${idx})" title="Remove ${sym} from portfolio">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          <span>Remove</span>
+        </button>
       </div>
     `;
     })
@@ -423,17 +526,42 @@ function renderSelectedStocksInModal() {
 }
 
 window.removeStockByIndex = function (idx) {
-  currentEditingStocks.splice(idx, 1);
-  renderSelectedStocksInModal();
-};
-
-function addTickerToSelection(ticker) {
-  if (!currentEditingStocks.includes(ticker)) {
-    currentEditingStocks.push(ticker);
+  if (idx >= 0 && idx < currentEditingStocks.length) {
+    currentEditingStocks.splice(idx, 1);
     renderSelectedStocksInModal();
   }
+};
+
+window.removeStockByTicker = function (ticker) {
+  const idx = currentEditingStocks.indexOf(ticker);
+  if (idx !== -1) {
+    currentEditingStocks.splice(idx, 1);
+    renderSelectedStocksInModal();
+  }
+};
+
+if (btnClearAllStocks) {
+  btnClearAllStocks.addEventListener("click", () => {
+    if (currentEditingStocks.length === 0) return;
+    currentEditingStocks = [];
+    renderSelectedStocksInModal();
+  });
+}
+
+function toggleTickerSelection(ticker) {
+  const idx = currentEditingStocks.indexOf(ticker);
+  if (idx !== -1) {
+    currentEditingStocks.splice(idx, 1);
+  } else {
+    currentEditingStocks.push(ticker);
+  }
+  renderSelectedStocksInModal();
   stockSearchInput.value = "";
   searchDropdown.style.display = "none";
+}
+
+function addTickerToSelection(ticker) {
+  toggleTickerSelection(ticker);
 }
 
 // TradingView Live Symbol Search
@@ -459,21 +587,26 @@ stockSearchInput.addEventListener("input", (e) => {
       }
 
       searchDropdown.innerHTML = results
-        .map(
-          (r) => `
-        <div class="search-item" onclick="addTickerToSelection('${r.fullTicker}')">
-          <div class="search-item-info">
-            <span class="search-item-sym">
-              <span>${r.symbol}</span>
-              <span class="search-item-tag">${r.exchange}</span>
-              <span class="search-item-tag">${r.currency}</span>
-            </span>
-            <span class="search-item-desc">${r.description}</span>
+        .map((r) => {
+          const isSelected = currentEditingStocks.includes(r.fullTicker);
+          return `
+          <div class="search-item" onclick="toggleTickerSelection('${r.fullTicker}')">
+            <div class="search-item-info">
+              <span class="search-item-sym">
+                <span>${r.symbol}</span>
+                <span class="search-item-tag">${r.exchange}</span>
+                <span class="search-item-tag">${r.currency}</span>
+              </span>
+              <span class="search-item-desc">${r.description}</span>
+            </div>
+            ${
+              isSelected
+                ? `<span style="color: #f87171; font-weight: 600; font-size: 0.82rem; display: flex; align-items: center; gap: 0.2rem;">✕ Remove</span>`
+                : `<span style="color: #38bdf8; font-weight: 600; font-size: 0.82rem; display: flex; align-items: center; gap: 0.2rem;">+ Add</span>`
+            }
           </div>
-          <span style="color: #f8fafc; font-weight: 600; font-size: 0.85rem;">+ Add</span>
-        </div>
-      `
-        )
+        `;
+        })
         .join("");
     } catch (err) {
       console.error(err);
@@ -482,11 +615,11 @@ stockSearchInput.addEventListener("input", (e) => {
   }, 250);
 });
 
-// Quick preset chips
+// Quick preset chips (click to toggle add/remove)
 document.querySelectorAll(".preset-chip").forEach((chip) => {
   chip.addEventListener("click", () => {
     const ticker = chip.getAttribute("data-ticker");
-    if (ticker) addTickerToSelection(ticker);
+    if (ticker) toggleTickerSelection(ticker);
   });
 });
 
@@ -821,7 +954,9 @@ window.addEventListener("keydown", (e) => {
       (active.classList.contains("leaderboard-row") ||
         active.classList.contains("podium-compact-card") ||
         active.classList.contains("preset-chip") ||
-        active.classList.contains("avatar-choice"))
+        active.classList.contains("avatar-choice") ||
+        active.classList.contains("btn-remove-stock") ||
+        active.classList.contains("btn-clear-stocks"))
     ) {
       active.click();
       e.preventDefault();

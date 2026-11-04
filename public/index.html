@@ -185,19 +185,68 @@
     </div>
   </div>
 
+  <!-- MODAL: Edit Existing Participant Name & Avatar -->
+  <div class="modal-overlay" id="modal-edit-user">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <span>✏️</span>
+          <span>Edit Participant</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal title="Exit (ESC)">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-user-id" />
+        <div class="form-group">
+          <label class="form-label" for="edit-user-name">Participant Name</label>
+          <input type="text" id="edit-user-name" class="form-input" placeholder="Participant name..." autofocus />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pick Avatar</label>
+          <div class="avatar-selector" id="edit-avatar-choices">
+            <div class="avatar-choice" tabindex="0" data-avatar="👑">👑</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🎯">🎯</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="💎">💎</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🚀">🚀</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🐺">🐺</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🦁">🦁</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="⚡">⚡</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🔥">🔥</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🦅">🦅</div>
+            <div class="avatar-choice" tabindex="0" data-avatar="🦈">🦈</div>
+          </div>
+        </div>
+
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          ✨ Changes to participant name and avatar are saved instantly.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal>Exit</button>
+        <button class="btn btn-primary" id="btn-save-edit-user">Save Name</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: Day's Start - Pick Stocks for User -->
   <div class="modal-overlay" id="modal-pick-stocks">
     <div class="modal-box" style="max-width: 720px;">
       <div class="modal-header">
         <h3 class="modal-title">
           <span>📈</span>
-          <span>Day's Start: Select Stocks</span>
+          <span>Edit Portfolio & Stocks</span>
         </h3>
         <button class="modal-close-btn" data-close-modal title="Exit (ESC)">✕</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label">Select Participant</label>
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 0.5rem; margin-bottom: 0.4rem;">
+            <label class="form-label" style="margin-bottom: 0;" for="pick-user-select">Select Participant</label>
+            <button type="button" class="btn btn-secondary" id="btn-rename-from-picker" style="font-size: 0.76rem; padding: 0.3rem 0.65rem; height: auto;" title="Edit this participant's name">
+              ✏️ Rename Participant
+            </button>
+          </div>
           <select id="pick-user-select" class="form-input" style="cursor: pointer;">
             <!-- Populated via JS -->
           </select>
@@ -212,8 +261,8 @@
 
         <!-- Quick Presets (100% Indian Stocks) -->
         <div class="form-group">
-          <label class="form-label">Quick Pick Top Indian Stocks</label>
-          <div class="preset-chips-box">
+          <label class="form-label">Quick Pick Top Indian Stocks (Click to toggle add/remove)</label>
+          <div class="preset-chips-box" id="preset-chips-container">
             <span class="preset-chip" tabindex="0" data-ticker="NSE:RELIANCE">+ RELIANCE</span>
             <span class="preset-chip" tabindex="0" data-ticker="NSE:TCS">+ TCS</span>
             <span class="preset-chip" tabindex="0" data-ticker="NSE:HDFCBANK">+ HDFCBANK</span>
@@ -231,7 +280,12 @@
 
         <!-- Selected Stocks in User's Portfolio -->
         <div class="form-group">
-          <label class="form-label">Current Portfolio Selection (<span id="selected-count">0</span> stocks)</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label class="form-label" style="margin-bottom: 0;">Selected Stocks (<span id="selected-count">0</span>)</label>
+            <button type="button" id="btn-clear-all-stocks" class="btn-clear-stocks" title="Remove all stocks from portfolio">
+              ✕ Remove All Stocks
+            </button>
+          </div>
           <div class="selected-stocks-list" id="selected-stocks-container">
             <!-- Selected stocks list -->
           </div>
@@ -239,7 +293,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" data-close-modal>Exit</button>
-        <button class="btn btn-primary" id="btn-save-portfolio">Lock In Portfolio</button>
+        <button class="btn btn-primary" id="btn-save-portfolio">Save Portfolio</button>
       </div>
     </div>
   </div>

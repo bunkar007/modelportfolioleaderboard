@@ -318,6 +318,37 @@ async function requestHandler(req: Request): Promise<Response> {
     });
   }
 
+  // 5b. PUT/PATCH /api/users/:id: Edit existing user name and avatar
+  if (path.startsWith("/api/users/") && (method === "PUT" || method === "PATCH")) {
+    const userId = path.replace("/api/users/", "");
+    try {
+      const body = await req.json();
+      const state = await loadState();
+      const user = state.users.find((u) => u.id === userId);
+      if (!user) {
+        return new Response(JSON.stringify({ error: "User not found" }), {
+          status: 404,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const name = (body.name || "").trim();
+      if (name) user.name = name;
+      if (body.avatar) user.avatar = body.avatar;
+      if (body.color) user.color = body.color;
+
+      await saveState(state);
+      return new Response(JSON.stringify({ success: true, user }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    } catch (err) {
+      return new Response(JSON.stringify({ error: String(err) }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+  }
+
   // 6. POST /api/portfolio: Update or lock in user's stock picks for today
   if (path === "/api/portfolio" && method === "POST") {
     try {
@@ -337,9 +368,18 @@ async function requestHandler(req: Request): Promise<Response> {
         });
       }
 
-      // Fetch latest prices for these tickers so baseline entry prices are set
-      const quotes = await getQuotesForTickers(tickers || []);
-      const newPortfolio: StockPick[] = (tickers || []).map((ticker) => {
+      const cleanTickers = Array.isArray(tickers) ? tickers.filter(Boolean) : [];
+
+      // Preserve existing stock entries (entryPrice, addedAt) if already in portfolio
+      const existingStockMap = new Map((user.portfolio || []).map((s) => [s.ticker, s]));
+      const tickersToFetch = cleanTickers.filter((t) => !existingStockMap.has(t));
+      const quotes = tickersToFetch.length > 0 ? await getQuotesForTickers(tickersToFetch) : new Map();
+
+      const newPortfolio: StockPick[] = cleanTickers.map((ticker) => {
+        const existing = existingStockMap.get(ticker);
+        if (existing) {
+          return existing;
+        }
         const q = quotes.get(ticker);
         const parts = ticker.split(":");
         const exchange = parts.length > 1 ? parts[0] : "";
@@ -349,8 +389,8 @@ async function requestHandler(req: Request): Promise<Response> {
           ticker,
           symbol,
           name: q?.name || symbol,
-          exchange: exchange || q?.exchange || "UNKNOWN",
-          currency: q?.currency || "USD",
+          exchange: exchange || q?.exchange || "NSE",
+          currency: q?.currency || "INR",
           entryPrice: q?.close || 0,
           addedAt: new Date().toISOString(),
         };
